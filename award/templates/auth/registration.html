@@ -1,0 +1,26 @@
+{% extends 'auth/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'css/registration.css' %}">
+
+<div class="container"> 
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <form action="" method="POST">
+        <fieldset class="form-group">
+           {{reg_form|crispy}}
+        </fieldset>
+        <div class="form-group">
+          <input type="submit" value="Register" class="btn btn-outline btn-info">
+        </div>
+      </form>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</div>
+
+{% endblock %}
