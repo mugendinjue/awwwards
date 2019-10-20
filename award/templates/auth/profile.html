@@ -1,0 +1,65 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+{{block.super}}
+
+<style>
+  .profile{
+    text-align: center;
+  }
+  .flex{
+    display: flex;
+  }
+</style>
+
+<div class="container mt-3 pt-3">
+  <div class="row">
+    <div class="col-md-4">
+    <div class="profile">
+      <img src="{{user.profile.profile_pic.url}}" alt="{{user.profile_pic.url}}" width="200" height="200" class="rounded-circle account-img">
+      <h3>{{user.username}}</h3>
+    </div>
+    </div>
+    <div class="col-md-4 mt-3 ">
+      <h5 class="text-center"><strong>Contacts</strong></h5>
+      <hr>
+    <h6><strong>Email:</strong>{{user.email}}</h6>
+    <hr>
+    <h6><strong>Phone Number: </strong>{{user.profile.phone_number}}</h6>
+    <hr>
+    <h6><strong>Naionality: </strong>{{user.profile.nationality}}</h6>
+    <hr>
+    </div>
+    <div class="col-md-4 mt-3">
+      <h5 class="text-center">
+        <strong>Bio</strong>
+      </h5>
+      <hr>
+      <p class="text-center">{{user.profile.bio}}</p>
+    </div>
+  </div>
+  <hr>
+
+</div>
+<div class="container">
+  <div class="row">
+  {% if projects %}
+  {% for project in projects %}
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    <div class="card">
+      <img src="{{project.landing_page.url}}" alt="{{project.title}}" class="card-img-top">
+      <div class="card-body">
+          <div class="flex">
+          <h5 class="card-text"><strong>{{project.title}}</strong></h5>
+            <p class="card-text date ml-3 pl-3">
+              {{project.posted_on}}
+            </p>
+          </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% endif %}
+</div>
+</div>
+{% endblock %}

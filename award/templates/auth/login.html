@@ -1,9 +1,18 @@
 {% extends 'auth/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
+{% load static %}
+<style>
+  .login_pic{
+    background-image: url("{% static 'img/bg-login.jpg' %}");
+  }
+</style>
+
 <div class="container">
   <div class="row pt-3 mt-3">
-    <div class="col-md-3"></div>
+    <div class="col-md-6 login_pic">
+      <img src="{% static 'img/bg-login.jpg' %}" alt="{% static 'img/bg-login.jpg' %}">
+    </div>
     <div class="col-md-6">
       {% if messages %}
         {% for message in messages %}
@@ -23,7 +32,7 @@
         <small><p><strong>Dont </strong>have an Account <a href="{% url 'register' %}">Register</a></p></small>
       </fieldset>
     </div>
-    <div class="col-nd-3"></div>
   </div>
 </div>
+
 {% endblock %}
