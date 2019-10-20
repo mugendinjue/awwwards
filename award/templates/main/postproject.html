@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container mt-3 pt-3">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-9">
+      <div class="title">
+        <label for="">Submissions</label>
+      </div>
+      <hr>
+      <form action="{% url 'postform' %}" method="POST" enctype="multipart/form-data">
+        <fieldset class="form-group">
+          {% csrf_token %}
+          {{post_form|crispy}}
+        </fieldset>
+        <div class="form-group">
+          <input type="submit" value="Submit" class="btn btn-outline btn-info">
+        </div>
+      </form>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>
+
+{% endblock %}
