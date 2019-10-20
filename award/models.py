@@ -27,6 +27,7 @@ class Project(models.Model):
   posted_on = models.DateTimeField(auto_now_add=True)
   category = models.CharField(max_length=50,blank=True)
   technologies = models.ManyToManyField(Technology)
+  Collaborators = models.CharField(max_length=100,blank=True)
   user = models.ForeignKey(User,on_delete=models.CASCADE)
 
 
