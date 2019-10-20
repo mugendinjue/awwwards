@@ -4,20 +4,27 @@
 
 {% block content %}
 {{block.super}}
-<link rel="stylesheet" href="{% static 'css/registration.css' %}">
+
+<style>
+  li{
+    display: none;
+  }
+</style>
 
 <div class="container"> 
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-      <form action="" method="POST">
+      <form action="{% url 'register' %}" method="POST">
         <fieldset class="form-group">
+          {% csrf_token %}
            {{reg_form|crispy}}
         </fieldset>
         <div class="form-group">
           <input type="submit" value="Register" class="btn btn-outline btn-info">
         </div>
       </form>
+    <small>  <p>Already have an <strong>Account </strong><a href="{% url 'login' %}">Login</a> </p></small>
     </div>
     <div class="col-md-3"></div>
   </div>
