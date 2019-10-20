@@ -1,0 +1,32 @@
+
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <form class="form-inline">
+      <div class="md-form my-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+      </div>
+      <button class="btn btn-outline-info btn-md my-2 my-sm-0 ml-3" type="submit">Search</button>
+    </form>
+    <a class="navbar-brand mr-3 pr-3" href="{% url 'home' %}">Awwards</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+      </ul>
+      <div class="pr-3 mr-auto " data-toggle="modal" data-target="#login">
+        <a href="#">
+          <span class="navbar-text dark-text" >
+            REGISTER / LOGIN
+          </span>
+        </a>
+        </div>
+      <div class="mr-auto">
+        <a href="{% url 'submissions' %}">
+          <span class="navbar-text dark-text" >
+            SUBMIT YOUR SITE!
+          </span>
+        </a>
+      </div>
+    </div>
+  </nav>
