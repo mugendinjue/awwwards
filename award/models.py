@@ -23,12 +23,16 @@ class Project(models.Model):
   landing_page = models.ImageField(upload_to='uploads/')
   description = models.TextField()
   live_link = models.TextField()
-  tag = models.ManyToManyField(Tag)
+  tag = models.ManyToManyField(Tag,related_name='tags')
   posted_on = models.DateTimeField(auto_now_add=True)
   category = models.CharField(max_length=50,blank=True)
-  technologies = models.ManyToManyField(Technology)
+  technologies = models.ManyToManyField(Technology,related_name='technologies')
   Collaborators = models.CharField(max_length=100,blank=True)
   user = models.ForeignKey(User,on_delete=models.CASCADE)
+
+  @classmethod
+  def query_all(cls):
+    return cls.objects.all()
 
 
   def __str__(self):
@@ -50,6 +54,12 @@ class Profile(models.Model):
   @receiver(post_save,sender = User)
   def save_profile(sender,instance,**kwargs):
     instance.profile.save()
+
+
+  @classmethod
+  def get_user_profile(cls,user_id):
+    profile = cls.objects.get(pk=user_id)
+    return profile
 
 
   def __str__(self):
