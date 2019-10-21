@@ -1,0 +1,51 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+{{block.super}}
+<style>
+  li{
+    display: none;
+  }
+  .profile{
+    display: flex;
+  }
+  .date{
+    float: right;
+  }
+  
+</style>
+
+<div class="container-fluid ml-3 pl-3 mt-3 pt-3">
+<p><strong>Search results</strong></p>
+<div class="row">
+  {% if the_projects %}
+    {% for project in the_projects %}
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <div class="card">
+        <img src="{{project.landing_page.url}}" alt="{{project.title}}" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-text"><strong>{{project.title}}</strong></h5>
+          <div class="flex">
+            <p class="card-text">
+              From {{project.user.profile.nationality}} 
+            </p>
+            <p class="card-text date">
+              {{project.posted_on}}
+            </p>
+          </div>
+          <div class="profile">
+            <img src="{{ project.user.profile.profile_pic.url }}" alt="" style="border-radius: 50%;" height="25" width="25" >
+            <p class="card-text ml-1 pl-1"> By <strong>{{project.user.username}}</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+  <h2 class="text-center">
+    No Result for that search
+  </h2>
+  {% endif %}
+</div>
+
+{% endblock %}

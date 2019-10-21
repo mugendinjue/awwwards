@@ -1,12 +1,12 @@
 
   <nav class="navbar navbar-expand-lg navbar-light">
-    <form class="form-inline">
+    <form class="form-inline ml-2 pl-2" action="{% url 'search' %}">
       <div class="md-form my-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search_term">
       </div>
       <button class="btn btn-outline-info btn-md my-2 my-sm-0 ml-3" type="submit">Search</button>
     </form>
-    <a class="navbar-brand mr-3 pr-3" href="{% url 'home' %}">Awwards</a>
+    <a class="navbar-brand ml-3 pl-3" href="{% url 'home' %}">Awwards</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -31,21 +31,23 @@
       {% if user.is_authenticated %}
       <ul>
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
-                  <span class="caret"></span>
-              </a>
+        <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">
+          <p>{{user.username}}</p>
+          <img src="{{ user.profile.profile_pic.url }}" alt="" style="border-radius: 50%;" height="25" width="25" >
+          <span class="caret"></span>
+          </a>
         <ul class="dropdown-menu" role="menu">
           <li>
-            <a href="#">Home</a>
+            <a href="{% url 'profile' %}">Profile</a>
           </li>
           <li>
-            <a href="#">Create Article</a>
+            <a href="#">Presserved</a>
           </li>
           <li>
-            <a href="/accounts/password/change">Change Password</a>
+            <a href="#">Change Password</a>
           </li>
           <li>
-            <a href="#">Logout</a>
+            <a href="{% url 'logout' %}">Logout</a>
           </li>
         </ul>
       </li>

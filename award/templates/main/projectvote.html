@@ -1,0 +1,94 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+{{block.super}}
+<script src="{% static 'js/rating.js' %}"></script>
+
+<style>
+  .top-flex{
+    display: flex;
+  }
+  .date{
+    float: right;
+  }
+  #rating{
+    display: none;
+  }
+  .voter_profiles{
+    display: flex;
+  }
+  .move_right{
+    float: right;
+  }
+</style>
+
+<div class="container-fluid mt-3 pt-3 ml-3 pl-3">
+  <div class="row">
+    <h6>Nominees / <strong>{{project.title}} - Launch Page </strong>from <strong>{{project.user.profile.nationality}}</strong> </h6>
+  </div>
+</div>
+
+<div class="container mt-3 pt-3">
+<div class="card">
+  <img src="{{project.landing_page.url}}" alt="" class="card-img-top">
+  <button class="btn btn-outline-info" id="btnShow">Vote Now</button>
+  <input type="hidden" value="{{project.id}}" class="projectId" >
+  <div class="form-group ml-2 pl-2" id="rating">
+    <form action="" method="post" id="rateForm">
+      {% csrf_token %}
+      {{rate_form|crispy }}
+      <div class="form-group">
+        <input type="submit" class="btn btn-outline btn-info" value="Submit" id="submit">
+      </div>
+    </form>
+  </div>
+  <div class="card-body">
+    <div class="top-flex">
+      <h5><strong>{{project.title}} - Launch Page</strong></h5>
+      <p class="date">{{project.posted_on}}</p>
+    </div>
+    <p>by {{project.user.username}} ({{project.user.profile.nationality}})</p>
+    <p>{{project.description}}</p>
+    <div class="align">
+      {% if tags.all %}
+      {% for tag in tags.all %}
+      <a href="#"><button class="btn btn-success btn-sm">{{tag}}</button></a>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">LAST USER VOTES</li>
+      {% if project.all_voters %}
+        {% for voter in project.all_voters %}
+        <li class="list-group-item voter_profiles">
+          <img src="{{ voter.user.profile.profile_pic.url }}" alt="" style="border-radius: 50%;" height="55" width="55" >
+          <p class="ml-3 pl-3 pt-2 mt-2">{{voter.user.username}}</p>
+          <div class="move_rigt ml-3 pl-3 pt-2 mt-2">
+            design: {{voter.design}}
+            usability: {{voter.usability}}
+            creativity: {{voter.creativity}}
+            content: {{voter.content}}
+            average: {{voter.vote_average}}
+          </div>
+
+        </li>
+        {% endfor %}
+      {% else %}
+      <h5 class="text-center">
+        No casted votes for this project yet
+      </h5>
+      {% endif %}
+
+    </ul>
+    {% for vote in project.all_voters %}
+    {{vote.vote_average}}
+    {% endfor %}
+  </div>
+
+
+
+{% endblock %}
