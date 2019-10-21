@@ -1,8 +1,10 @@
 from django.shortcuts import render,redirect
-from .forms import RegistrationForm,PostProjectsForm
+from .forms import RegistrationForm,PostProjectsForm,ProjectRatingForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Project,Profile
+from .models import Project,Profile,Tag,Technology,Rating
+from django.http import JsonResponse
+from django.contrib.auth.models import User
 
 
 
@@ -66,3 +68,48 @@ def profile(request):
     'projects':projects
   }
   return render(request,'auth/profile.html',context)
+
+
+@login_required
+def vote(request,project_id):
+  project = Project.get_project(project_id)
+  tags = Project.objects.filter(pk = project_id).first().tag.all()
+  rate_form = ProjectRatingForm()
+  voters = Rating.objects.filter(project_id = project_id).all()
+  context = {
+    'project':project,
+    'tags':tags,
+    'rate_form':rate_form,
+    'voters':voters
+  }
+  return render(request,'main/projectvote.html',context)
+
+@login_required
+def rate(request,project_id):
+  design = request.POST.get('design')
+  usability = request.POST.get('usability')
+  creativity = request.POST.get('creativity')
+  content = request.POST.get('content')
+  project = Project.objects.filter(pk = project_id ).first()
+  user = request.user
+  avg = Rating.user_average(design,usability,creativity,content)
+  print(avg)
+  rating = Rating(project = project,user = user,design = design,usability = usability,creativity = creativity,content = content,vote_average = avg)
+  rating.save()
+  data = {
+    'success':'data received'
+  }
+  return JsonResponse(data)
+
+
+@login_required
+def search(request):
+  if 'search_term' in request.GET and request.GET["search_term"]:
+    name = request.GET.get('search_term')
+    the_project = Project.search_by_title(name)
+    context = {
+      'the_projects':the_project
+    }
+    return render(request,'main/search.html',context)
+  else:
+    return render(request,'main/search.html')
