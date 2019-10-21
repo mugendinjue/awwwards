@@ -7,6 +7,11 @@ from django.db.models.signals import post_save
 
 class Tag(models.Model):
   name = models.CharField(max_length=20)
+  
+
+  @property
+  def all_tags(self):
+    return self.tags.all()
 
   def __str__(self):
     return "%s tag"%self.name
@@ -29,10 +34,25 @@ class Project(models.Model):
   technologies = models.ManyToManyField(Technology,related_name='technologies')
   Collaborators = models.CharField(max_length=100,blank=True)
   user = models.ForeignKey(User,on_delete=models.CASCADE)
+  
 
   @classmethod
   def query_all(cls):
     return cls.objects.all()
+
+  @classmethod
+  def get_project(cls,project_id):
+    project = cls.objects.get(pk = project_id)
+    return project
+
+  @property
+  def all_voters(self):
+    return self.project_rating.all()
+
+  @classmethod
+  def search_by_title(cls,search_term):
+    projects = cls.objects.filter(title__icontains = search_term)
+    return projects
 
 
   def __str__(self):
@@ -73,7 +93,12 @@ class Rating(models.Model):
   usability = models.IntegerField()
   creativity = models.IntegerField()
   content = models.IntegerField()
+  vote_average = models.IntegerField()
 
+  def user_average(design,usability,creativity,content):
+    summation = int(design)+int(usability)+int(creativity)+int(content)
+    average = summation/4
+    return average
 
   def __str__(self):
     return "%s rate"%self.project
