@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile,Project
+from .models import Profile,Project,Rating
 
 
 class RegistrationForm(UserCreationForm):
@@ -19,4 +19,11 @@ class PostProjectsForm(forms.ModelForm):
       'tag': forms.CheckboxSelectMultiple(),
       'technologies':forms.CheckboxSelectMultiple()
     }
+
+
+class ProjectRatingForm(forms.ModelForm):
+  class Meta:
+    model = Rating
+    exclude = ['user','project','vote_average']
+
   
