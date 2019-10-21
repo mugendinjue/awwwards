@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,re_path
 from . import views as main_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -13,6 +13,9 @@ urlpatterns = [
   path('submission',main_views.submit,name='submissions'),
   path('postform/',main_views.post_project, name='postform'),
   path('profile/',main_views.profile, name='profile'),
+  re_path(r'^vote/(?P<project_id>\d+)$',main_views.vote, name='vote'),
+  re_path(r'^rating/data/(?P<project_id>\d+)$',main_views.rate,name='rate'),
+  re_path(r'^search/$',main_views.search,name='search')
 ]
 
 if settings.DEBUG:
