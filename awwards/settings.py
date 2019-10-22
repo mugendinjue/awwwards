@@ -22,11 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
-EMAIL_USE_TLS= config('EMAIL_USE_TLS')
-EMAIL_HOST= config('EMAIL_HOST')
-EMAIL_PORT= config('EMAIL_PORT')
-EMAIL_HOST_USER= config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD= ('EMAIL_HOST_PASSWORD')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
