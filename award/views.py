@@ -5,6 +5,10 @@ from django.contrib import messages
 from .models import Project,Profile,Tag,Technology,Rating
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializer import ProjectSerializer
+from rest_framework import status
 
 
 
@@ -26,11 +30,73 @@ def register(request):
 def home(request):
   reg_form=RegistrationForm()
   projects = Project.query_all()
+  
+  top = []
+  for project in projects:
+    project_points = Rating.objects.filter(project_id = project.id).all()
+    arr = []
+    for point in project_points:
+      arr.append(point.vote_average)
+      avg = sum(arr)/len(arr)
+      top.append(avg)
+  show_top = (max(top))
+     
+
+  for project in projects:
+    project_points = Rating.objects.filter(project_id = project.id).all()
+    arr = []
+    for point in project_points:
+      arr.append(point.vote_average)
+      avg = sum(arr)/len(arr)
+      if avg == show_top:
+        tt = point.id
+
+  the_project = Rating.objects.get(id = tt)
+  get_projects = Rating.objects.filter(project_id = the_project.project_id).all()
+
+  design = []
+  for de in get_projects:
+    design.append(de.design)
+    design_avg = sum(design)/len(design)
+
+  userbility = []
+  for de in get_projects:
+    userbility.append(de.design)
+    userbility_avg = sum(userbility)/len(userbility)
+
+  creativity = []
+  for de in get_projects:
+    creativity.append(de.design)
+    creativity_avg = sum(creativity)/len(creativity)
+
+  content = []
+  for de in get_projects:
+    content.append(de.design)
+    content_avg = sum(content)/len(content)
+
+
+
+  print(design_avg)
   context = {
     'reg_form':reg_form,
-    'projects':projects
+    'projects':projects,
+    'the_project':the_project,
+    'show_top':show_top,
+    'design_avg':design_avg,
+    'userbility_avg':userbility_avg,
+    'creativity_avg':creativity_avg,
+    'content_avg':content_avg
+
   }
   return render(request,'main/home.html',context)
+
+
+class ProjectList(APIView):
+  def get(self, request, format=None):
+    all_projects = Project.objects.all()
+    serializers = ProjectSerializer(all_projects, many=True)
+    return Response(serializers.data)
+
 
 
 @login_required
@@ -76,11 +142,23 @@ def vote(request,project_id):
   tags = Project.objects.filter(pk = project_id).first().tag.all()
   rate_form = ProjectRatingForm()
   voters = Rating.objects.filter(project_id = project_id).all()
+  project_points = Rating.objects.filter(project_id = project_id).all()
+  arr = []
+  for point in project_points:
+    arr.append(point.vote_average)
+
+  arr_length = len(arr)
+  if arr_length == 0:
+    arr_length = 1
+    avg = sum(arr)/arr_length
+  else:
+    avg = sum(arr)/len(arr)
   context = {
     'project':project,
     'tags':tags,
     'rate_form':rate_form,
-    'voters':voters
+    'voters':voters,
+    'avg':avg
   }
   return render(request,'main/projectvote.html',context)
 
@@ -93,9 +171,16 @@ def rate(request,project_id):
   project = Project.objects.filter(pk = project_id ).first()
   user = request.user
   avg = Rating.user_average(design,usability,creativity,content)
-  print(avg)
-  rating = Rating(project = project,user = user,design = design,usability = usability,creativity = creativity,content = content,vote_average = avg)
-  rating.save()
+  rater  = Rating.objects.filter(user_id = user.id).first()
+  if rater is not None:
+    old_rating = Rating.objects.filter(user_id = user.id).all()
+    old_rating.delete()
+    rating = Rating(project = project,user = user,design = design,usability = usability,creativity = creativity,content = content,vote_average = avg)
+    rating.save()
+  else:
+    rating = Rating(project = project,user = user,design = design,usability = usability,creativity = creativity,content = content,vote_average = avg)
+    rating.save()
+
   data = {
     'success':'data received'
   }

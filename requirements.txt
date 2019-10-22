@@ -5,9 +5,9 @@ django-bootstrap4==1.0.1
 django-ckeditor==5.7.1
 django-crispy-forms==1.8.0
 django-js-asset==1.2.2
+djangorestframework==3.10.3
 gunicorn==19.9.0
 Pillow==6.2.0
-pkg-resources==0.0.0
 psycopg2==2.8.3
 python-decouple==3.1
 pytz==2019.3

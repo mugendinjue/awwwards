@@ -23,6 +23,7 @@
   .move_right{
     float: right;
   }
+
 </style>
 
 <div class="container-fluid mt-3 pt-3 ml-3 pl-3">
@@ -33,7 +34,7 @@
 
 <div class="container mt-3 pt-3">
 <div class="card">
-  <img src="{{project.landing_page.url}}" alt="" class="card-img-top">
+  <img src="{{project.landing_page.url}}" alt="" class="card-img-top" id="img">
   <button class="btn btn-outline-info" id="btnShow">Vote Now</button>
   <input type="hidden" value="{{project.id}}" class="projectId" >
   <div class="form-group ml-2 pl-2" id="rating">
@@ -60,7 +61,7 @@
       {% endif %}
     </div>
   </div>
-    <ul class="list-group list-group-flush">
+    <!-- <ul class="list-group list-group-flush">
       <li class="list-group-item">LAST USER VOTES</li>
       {% if project.all_voters %}
         {% for voter in project.all_voters %}
@@ -74,7 +75,6 @@
             content: {{voter.content}}
             average: {{voter.vote_average}}
           </div>
-
         </li>
         {% endfor %}
       {% else %}
@@ -83,12 +83,42 @@
       </h5>
       {% endif %}
 
-    </ul>
-    {% for vote in project.all_voters %}
-    {{vote.vote_average}}
-    {% endfor %}
+    </ul> -->
   </div>
-
+  <div class="row">
+  <div class="col-md-12">
+    <h2 class="project-details-heading">Ratings</h2><hr>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">User</th>
+                <th scope="col">Design</th>
+                <th scope="col">Usability</th>
+                <th scope="col">creativity</th>
+                <th scope="col">Content</th>
+                <th scope="col">vote_average</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% if project.all_voters %}
+          {% for voter in project.all_voters %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><img src="{{ voter.user.profile.profile_pic.url }}" alt="profile picture" class="rounded-circle custom-display border border-danger" height="55" width="55">{{voter.user.username}}</td>
+                <td>{{voter.design}}</td>
+                <td>{{voter.usability}}</td>
+                <td>{{voter.creativity}}</td>
+                <td>{{voter.content}}</td>
+                <td>{{voter.vote_average}}</td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+  </div>
+  </div>
+</div>
 
 
 {% endblock %}

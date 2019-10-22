@@ -21,13 +21,34 @@
     height: 70%;
     width: 100%;
   }
-  
+  .top{
+    position: absolute;
+    top: 200px;
+    color: wheat;
+    left: 600px;
+  }
+  .top_bottom{
+    position: absolute;
+    top: 450px;
+    left: 70px;
+  }
 
  
 </style>
 
 <div class="container-fluid">
-  <h1 class="text-center">Site of the day goes here</h1>
+  <img src="{{the_project.project.landing_page.url}}" alt="{{project.title}}" class="card-img-top" height="500">
+  <div class="top">
+    <h2 class="text-center">{{the_project.project.title}}</h2>
+    <h5 class="text-center">BY {{the_project.project.user.username}} FROM {{the_project.project.user.profile.nationality}} WITH {{show_top}}</h5>
+    <!-- design: {{design_avg}}
+    usability: {{usability_avg}}
+    creativity: {{creativity_avg}}
+    content: {{content.avg}} -->
+  </div>
+  <div class="top_bottom">
+    <button type="button" class="btn btn-outline-light"><a href="{{the_project.project.live_link}}"  target="_blank" ><small>View Site</small></a></button>
+  </div>
 </div>
 
 <div class="container-fluid ml-3 pl-3 mt-3 pt-3">

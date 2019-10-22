@@ -15,7 +15,8 @@ urlpatterns = [
   path('profile/',main_views.profile, name='profile'),
   re_path(r'^vote/(?P<project_id>\d+)$',main_views.vote, name='vote'),
   re_path(r'^rating/data/(?P<project_id>\d+)$',main_views.rate,name='rate'),
-  re_path(r'^search/$',main_views.search,name='search')
+  re_path(r'^search/$',main_views.search,name='search'),
+  re_path(r'^api/projects/$', main_views.ProjectList.as_view())
 ]
 
 if settings.DEBUG:

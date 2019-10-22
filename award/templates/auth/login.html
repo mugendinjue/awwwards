@@ -3,15 +3,13 @@
 {% block content %}
 {% load static %}
 <style>
-  .login_pic{
-    background-image: url("{% static 'img/bg-login.jpg' %}");
-  }
+
 </style>
 
-<div class="container">
+<div class="container-fluid">
   <div class="row pt-3 mt-3">
     <div class="col-md-6 login_pic">
-      <img src="{% static 'img/bg-login.jpg' %}" alt="{% static 'img/bg-login.jpg' %}">
+      <img src="{% static 'img/bg-login.jpg' %}"  alt="" class="card-img-top">
     </div>
     <div class="col-md-6">
       {% if messages %}
