@@ -90,11 +90,11 @@ class Profile(models.Model):
 class Rating(models.Model):
   project = models.ForeignKey(Project,on_delete = models.CASCADE,related_name='project_rating')
   user = models.ForeignKey(User,on_delete = models.CASCADE,related_name='person_rating')
-  design = models.IntegerField(choices=[(i,i) for i in range(1,11)])
-  usability = models.IntegerField(choices=[(i,i) for i in range(1,11)])
-  creativity = models.IntegerField(choices=[(i,i) for i in range(1,11)])
-  content = models.IntegerField(choices=[(i,i) for i in range(1,11)])
-  vote_average = models.IntegerField(choices=[(i,i) for i in range(1,11)])
+  design = models.IntegerField(choices=[(i,i) for i in range(1,10)])
+  usability = models.IntegerField(choices=[(i,i) for i in range(1,10)])
+  creativity = models.IntegerField(choices=[(i,i) for i in range(1,10)])
+  content = models.IntegerField(choices=[(i,i) for i in range(1,10)])
+  vote_average = models.IntegerField(choices=[(i,i) for i in range(1,10)])
 
   def user_average(design,usability,creativity,content):
     summation = int(design)+int(usability)+int(creativity)+int(content)

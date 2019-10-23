@@ -4,57 +4,184 @@
 {% block content %}
 {{block.super}}
 <style>
-  li{
+  li {
     display: none;
   }
-  .profile{
+
+  .profile {
     display: flex;
   }
-  .date{
+
+  .date {
     float: right;
   }
 
-  .main{
+  .main {
     position: absolute;
     top: 0;
-    background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.1) 70%);
+    background: linear-gradient(to top, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, .1) 70%);
     height: 70%;
     width: 100%;
   }
-  .top{
-    position: absolute;
-    top: 200px;
+
+  .top {
     color: wheat;
-    left: 600px;
+    text-transform: uppercase;
   }
-  .top_bottom{
+
+  .top_bottom {
     position: absolute;
     top: 450px;
     left: 70px;
   }
 
- 
+  .design,
+  .user,
+  .crt,
+  .content {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border-style: solid;
+  }
+
+  .circles {
+    display: flex;
+  }
+
+  .circles div:nth-child(even) {
+    margin: 0 15px 0 15px;
+  }
+
+  #btn_style {
+    border-radius: 40%;
+  }
+
+  .design {
+    border-color: orange;
+  }
+
+  .user {
+    border-color: orangered;
+  }
+
+  .crt {
+    border-color: yellowgreen;
+  }
+
+  .content {
+    border-color: blueviolet;
+  }
+
+  .result {
+    top: 300px;
+  }
+
+  .above {
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 80vh;
+    padding: 0;
+  }
+
+  .bg {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: .5s ease-in-out;
+  }
+
+  .bg:hover {
+    background-color: rgba(0, 0, 0, .6);
+  }
+
+  .rate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+
+  .big {
+    font-size: 2em;
+    font-weight: bolder;
+    transform: skew(-7deg);
+  }
+
+  .small {
+    font-size: 1em;
+    margin-top: 10px;
+    transform: skew(-7deg);
+
+  }
+  .items{
+    text-align: center;
+   
+  }
+  .items small{
+    color:white;
+    letter-spacing: 1px;
+    font-weight:300;
+  }
 </style>
 
-<div class="container-fluid">
-  <img src="{{the_project.project.landing_page.url}}" alt="{{project.title}}" class="card-img-top" height="500">
-  <div class="top">
-    <h2 class="text-center">{{the_project.project.title}}</h2>
-    <h5 class="text-center">BY {{the_project.project.user.username}} FROM {{the_project.project.user.profile.nationality}} WITH {{show_top}}</h5>
-    <!-- design: {{design_avg}}
-    usability: {{usability_avg}}
-    creativity: {{creativity_avg}}
-    content: {{content.avg}} -->
+<div class="container-fluid above" style="background-image: url('{{the_project.project.landing_page.url}}');">
+  <div class="bg">
+
+    <div class="top">
+      <h2 class="text-center">{{the_project.project.title}}</h2>
+      <h5 class="text-center">BY {{the_project.project.user.username}} FROM
+        {{the_project.project.user.profile.nationality}} WITH {{show_top}}</h5>
+    </div>
+
+    <div class="circles">
+      <div class="items">
+        <div class="rate design">
+          <span class="big">{{design_avg|slice:"1"}}</span>
+          <span class="small">{{design_avg|slice:"1:"}}0</span>
+        </div>
+        <small>DESIGN</small>
+      </div>
+      <div class="items">
+        <div class="rate user">
+          <span class="big">{{userbility_avg|slice:"1"}}</span>
+          <span class="small">{{userbility_avg|slice:"1:"}}0</span>
+        </div>
+        <small>USERBILITY</small>
+      </div>
+      <div class="items">
+        <div class="rate crt">
+          <span class="big">{{creativity_avg|slice:"1"}}</span>
+          <span class="small">{{creativity_avg|slice:"1:"}}0</span>
+        </div>
+        <small>CREATIVITY</small>
+      </div>
+      <div class="items">
+        <div class="rate content">
+          <span class="big">{{content_avg|slice:"1"}}</span>
+          <span class="small">{{content_avg|slice:"1:"}}0</span>
+        </div>
+        <small>CONTENT</small>
+      </div>
+    </div>
   </div>
-  <div class="top_bottom">
-    <button type="button" class="btn btn-outline-light"><a href="{{the_project.project.live_link}}"  target="_blank" ><small>View Site</small></a></button>
-  </div>
+</div>
+<div class="top_bottom">
+  <button id="btn_style" type="button" class="btn btn-outline-light"><a href="{{the_project.project.live_link}}"
+      target="_blank"><small>View Site</small></a></button>
+</div>
 </div>
 
 <div class="container-fluid ml-3 pl-3 mt-3 pt-3">
-<p><strong>Sites of the day </strong>Previous Winners</p>
-<div class="row">
-  {% if projects %}
+  <p><strong>Sites of the day </strong>Previous Winners</p>
+  <div class="row">
+    {% if projects %}
     {% for project in projects %}
     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
       <div class="card">
@@ -63,98 +190,101 @@
           <h5 class="card-text"><strong>{{project.title}}</strong></h5>
           <div class="flex">
             <p class="card-text">
-              From {{project.user.profile.nationality}} 
+              From {{project.user.profile.nationality}}
             </p>
             <p class="card-text date">
-              {{project.posted_on}}
+              {{project.posted_on|timesince}}
             </p>
           </div>
           <div class="profile">
-            <img src="{{ project.user.profile.profile_pic.url }}" alt="" style="border-radius: 50%;" height="25" width="25" >
+            <img src="{{ project.user.profile.profile_pic.url }}" alt="" style="border-radius: 50%;" height="25"
+              width="25">
             <p class="card-text ml-1 pl-1"> By <strong>{{project.user.username}}</strong></p>
           </div>
         </div>
       </div>
     </div>
     {% endfor %}
-  {% else %}
-  <h2 class="text-center">
-    No projects posted yet
-  </h2>
-  {% endif %}
-</div>
+    {% else %}
+    <h2 class="text-center">
+      No projects posted yet
+    </h2>
+    {% endif %}
+  </div>
 
-<p class="mt-3 pt-3"><strong>Nominees </strong>We need your vote!</p>
-<div class="row">
-  {% if projects %}
+  <p class="mt-3 pt-3"><strong>Nominees </strong>We need your vote!</p>
+  <div class="row">
+    {% if projects %}
     {% for project in projects %}
     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
       <div class="card">
         <div class="card-images">
-        <img src="{{project.landing_page.url}}" alt="{{project.title}}" class="card-img-top">
-        <div class="main">
-          <div class="content">
-            <a href="{% url 'vote' project_id=project.id %}"><button class="btn btn-success btn-sm">Vote now</button></a>
+          <img src="{{project.landing_page.url}}" alt="{{project.title}}" class="card-img-top">
+          <div class="main">
+            <div class="">
+              <a href="{% url 'vote' project_id=project.id %}"><button class="btn btn-success btn-sm">Vote
+                now</button></a>
+            </div>
           </div>
         </div>
-      </div>
         <div class="card-body">
           <h5 class="card-text"><strong>{{project.title}}</strong></h5>
           <div class="flex">
             <p class="card-text">
-              From {{project.user.profile.nationality}} 
+              From {{project.user.profile.nationality}}
             </p>
             <p class="card-text date">
-              {{project.posted_on}}
+              {{project.posted_on|timesince}}
             </p>
           </div>
           <div class="profile">
-            <img src="{{ project.user.profile.profile_pic.url }}" alt="" style="border-radius: 50%;" height="25" width="25" >
+            <img src="{{ project.user.profile.profile_pic.url }}" alt="" style="border-radius: 50%;" height="25"
+              width="25">
             <p class="card-text ml-1 pl-1"> By <strong>{{project.user.username}}</strong></p>
           </div>
         </div>
       </div>
     </div>
     {% endfor %}
-  {% else %}
-  <h2 class="text-center">
-    No projects posted yet
-  </h2>
+    {% else %}
+    <h2 class="text-center">
+      No projects posted yet
+    </h2>
     {% endif %}
   </div>
 
 </div>
 
 
-
-
-
-
-<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <small><p class="modal-title" id="exampleModalLongTitle">Already have an <strong>Account </strong><a href="{% url 'login' %}">Login</a> </p></small>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <form action="{% url 'register' %}" method="POST">
-        <fieldset class="form-group">
-          {% csrf_token %}
+<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <small>
+          <p class="modal-title" id="exampleModalLongTitle">Already have an <strong>Account </strong><a
+              href="{% url 'login' %}">Login</a> </p>
+        </small>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'register' %}" method="POST">
+          <fieldset class="form-group">
+            {% csrf_token %}
             {{reg_form|crispy}}
-        </fieldset>
-        <div class="form-group">
-          <input type="submit" value="Register" class="btn btn-outline btn-info">
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
+          </fieldset>
+          <div class="form-group">
+            <input type="submit" value="Register" class="btn btn-outline btn-info">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
 
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 {% endblock %}

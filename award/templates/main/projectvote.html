@@ -49,7 +49,7 @@
   <div class="card-body">
     <div class="top-flex">
       <h5><strong>{{project.title}} - Launch Page</strong></h5>
-      <p class="date">{{project.posted_on}}</p>
+      <p class="date">{{project.posted_on|timesince}}</p>
     </div>
     <p>by {{project.user.username}} ({{project.user.profile.nationality}})</p>
     <p>{{project.description}}</p>
@@ -61,29 +61,7 @@
       {% endif %}
     </div>
   </div>
-    <!-- <ul class="list-group list-group-flush">
-      <li class="list-group-item">LAST USER VOTES</li>
-      {% if project.all_voters %}
-        {% for voter in project.all_voters %}
-        <li class="list-group-item voter_profiles">
-          <img src="{{ voter.user.profile.profile_pic.url }}" alt="" style="border-radius: 50%;" height="55" width="55" >
-          <p class="ml-3 pl-3 pt-2 mt-2">{{voter.user.username}}</p>
-          <div class="move_rigt ml-3 pl-3 pt-2 mt-2">
-            design: {{voter.design}}
-            usability: {{voter.usability}}
-            creativity: {{voter.creativity}}
-            content: {{voter.content}}
-            average: {{voter.vote_average}}
-          </div>
-        </li>
-        {% endfor %}
-      {% else %}
-      <h5 class="text-center">
-        No casted votes for this project yet
-      </h5>
-      {% endif %}
 
-    </ul> -->
   </div>
   <div class="row">
   <div class="col-md-12">

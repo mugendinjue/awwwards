@@ -57,35 +57,32 @@ def home(request):
   design = []
   for de in get_projects:
     design.append(de.design)
-    design_avg = sum(design)/len(design)
+  design_avg = sum(design)/len(design)
 
   userbility = []
   for de in get_projects:
-    userbility.append(de.design)
-    userbility_avg = sum(userbility)/len(userbility)
+    userbility.append(de.usability)
+  userbility_avg = sum(userbility)/len(userbility)
 
   creativity = []
   for de in get_projects:
-    creativity.append(de.design)
-    creativity_avg = sum(creativity)/len(creativity)
+    creativity.append(de.creativity)
+  creativity_avg = sum(creativity)/len(creativity)
 
   content = []
   for de in get_projects:
-    content.append(de.design)
-    content_avg = sum(content)/len(content)
+    content.append(de.content)
+  content_avg = sum(content)/len(content)
 
-
-
-  print(design_avg)
   context = {
     'reg_form':reg_form,
     'projects':projects,
     'the_project':the_project,
     'show_top':show_top,
-    'design_avg':design_avg,
-    'userbility_avg':userbility_avg,
-    'creativity_avg':creativity_avg,
-    'content_avg':content_avg
+    'design_avg':str(design_avg),
+    'userbility_avg':str(userbility_avg),
+    'creativity_avg':str(creativity_avg),
+    'content_avg':str(content_avg)
 
   }
   return render(request,'main/home.html',context)
@@ -171,9 +168,9 @@ def rate(request,project_id):
   project = Project.objects.filter(pk = project_id ).first()
   user = request.user
   avg = Rating.user_average(design,usability,creativity,content)
-  rater  = Rating.objects.filter(user_id = user.id).first()
+  rater  = Rating.objects.filter(user_id = user.id,project_id = project.id).first()
   if rater is not None:
-    old_rating = Rating.objects.filter(user_id = user.id).all()
+    old_rating = Rating.objects.filter(user_id = user.id).first()
     old_rating.delete()
     rating = Rating(project = project,user = user,design = design,usability = usability,creativity = creativity,content = content,vote_average = avg)
     rating.save()
