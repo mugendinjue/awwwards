@@ -25,7 +25,7 @@ As a user of the application you will be able to:
 
 ## Live link
 
-> + You can [view]() the app 
+> + You can [view](https://mugendiawwards.herokuapp.com/) the app 
 
 ## Getting Started
 
