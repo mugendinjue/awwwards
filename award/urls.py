@@ -3,7 +3,7 @@ from . import views as main_views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-
+from rest_framework.authtoken import models
 
 urlpatterns = [
   path('',main_views.home,name='home'),
@@ -16,7 +16,9 @@ urlpatterns = [
   re_path(r'^vote/(?P<project_id>\d+)$',main_views.vote, name='vote'),
   re_path(r'^rating/data/(?P<project_id>\d+)$',main_views.rate,name='rate'),
   re_path(r'^search/$',main_views.search,name='search'),
-  re_path(r'^api/projects/$', main_views.ProjectList.as_view())
+  re_path(r'^api/projects/$', main_views.ProjectList.as_view()),
+  re_path(r'^api/profiles/$', main_views.ProfileList.as_view()),
+  path('developers/',main_views.developers, name='developers'),
 ]
 
 if settings.DEBUG:

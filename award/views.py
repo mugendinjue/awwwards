@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializer import ProjectSerializer
+from .serializer import ProjectSerializer,ProfileSerializer
 from rest_framework import status
 
 
@@ -38,7 +38,8 @@ def home(request):
     for point in project_points:
       arr.append(point.vote_average)
       avg = sum(arr)/len(arr)
-      top.append(avg)
+    top.append(avg)
+
   show_top = (max(top))
      
 
@@ -50,6 +51,26 @@ def home(request):
       avg = sum(arr)/len(arr)
       if avg == show_top:
         tt = point.id
+
+  the_sod = []
+  for project in projects:
+    project_points = Rating.objects.filter(project_id = project.id).all()
+    arr = []
+    for point in project_points:
+      arr.append(point.vote_average)
+      avg = sum(arr)/len(arr)
+      if avg >= 7 :
+        sod = point.id
+        the_sod.append(sod)
+
+
+  site_of_day = []
+  for i in the_sod:
+    sod_projects = Rating.objects.filter(id = i)
+    for sooood in sod_projects:
+        site_of_day.append(Project.objects.filter(id = sooood.project_id))
+
+  print(site_of_day)
 
   the_project = Rating.objects.get(id = tt)
   get_projects = Rating.objects.filter(project_id = the_project.project_id).all()
@@ -73,7 +94,7 @@ def home(request):
   for de in get_projects:
     content.append(de.content)
   content_avg = sum(content)/len(content)
-
+  print(site_of_day)
   context = {
     'reg_form':reg_form,
     'projects':projects,
@@ -82,7 +103,8 @@ def home(request):
     'design_avg':str(design_avg),
     'userbility_avg':str(userbility_avg),
     'creativity_avg':str(creativity_avg),
-    'content_avg':str(content_avg)
+    'content_avg':str(content_avg),
+    'site_of_day':site_of_day,
 
   }
   return render(request,'main/home.html',context)
@@ -92,9 +114,13 @@ class ProjectList(APIView):
   def get(self, request, format=None):
     all_projects = Project.objects.all()
     serializers = ProjectSerializer(all_projects, many=True)
-    return Response(serializers.data)
+    return JsonResponse(serializers.data,safe=False)
 
-
+class ProfileList(APIView):
+  def get(self,request,format=None):
+    all_profiles = Profile.objects.all()
+    serializers = ProfileSerializer(all_profiles,many=True)
+    return JsonResponse(serializers.data,safe=False)
 
 @login_required
 def submit(request):
@@ -130,7 +156,11 @@ def profile(request):
   context = {
     'projects':projects
   }
-  return render(request,'auth/profile.html',context)
+  return render(request,'main/profile.html',context)
+
+
+def developers(request):
+  return render(request,'main/developers.html')
 
 
 @login_required
@@ -170,7 +200,7 @@ def rate(request,project_id):
   avg = Rating.user_average(design,usability,creativity,content)
   rater  = Rating.objects.filter(user_id = user.id,project_id = project.id).first()
   if rater is not None:
-    old_rating = Rating.objects.filter(user_id = user.id).first()
+    old_rating = Rating.objects.filter(user_id = user.id).all()
     old_rating.delete()
     rating = Rating(project = project,user = user,design = design,usability = usability,creativity = creativity,content = content,vote_average = avg)
     rating.save()

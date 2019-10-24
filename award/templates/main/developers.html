@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+{{block.super}}
+<style>
+  li {
+    text-decoration: none;
+  }
+
+  #profile_api_pic {
+    display: none;
+  }
+
+  #project_api_pic {
+    display: none;
+  }
+</style>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="{% static 'js/developer.js' %}"></script>
+
+<div class="container">
+  <h3 class="text-center mt-3 pt-3">
+    DEVELOPERS
+  </h3>
+  <hr>
+  <h6 class="text-center">
+    All the available APIS for the app are as follows:
+    <hr>
+    <ul class="mt-3 pt-3">
+      <li id="project_api">
+        <a href="#">The projects api, use https://mugendiawwards.herokuapp.com/api/projects/</a>
+        <img src="{% static 'img/project.png' %}" alt="project.png" id="project_api_pic" class="card-img-top">
+      </li>
+      <hr>
+      <li id="profile_api">
+        <a href="#">The projects api, use https://mugendiawwards.herokuapp.com/api/profiles/</a>
+        <img src="{% static 'img/profile.png' %}" alt="profile.png" id="profile_api_pic" class="card-img-top">
+      </li>
+    </ul>
+
+  </h6>
+</div>
+
+
+{% endblock %}

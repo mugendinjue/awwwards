@@ -16,13 +16,7 @@
     float: right;
   }
 
-  .main {
-    position: absolute;
-    top: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, .1) 70%);
-    height: 70%;
-    width: 100%;
-  }
+
 
   .top {
     color: wheat;
@@ -144,28 +138,28 @@
       <div class="items">
         <div class="rate design">
           <span class="big">{{design_avg|slice:"1"}}</span>
-          <span class="small">{{design_avg|slice:"1:"}}0</span>
+          <span class="small">{{design_avg|slice:"1:3"}}0</span>
         </div>
         <small>DESIGN</small>
       </div>
       <div class="items">
         <div class="rate user">
           <span class="big">{{userbility_avg|slice:"1"}}</span>
-          <span class="small">{{userbility_avg|slice:"1:"}}0</span>
+          <span class="small">{{userbility_avg|slice:"1:3"}}0</span>
         </div>
         <small>USERBILITY</small>
       </div>
       <div class="items">
         <div class="rate crt">
           <span class="big">{{creativity_avg|slice:"1"}}</span>
-          <span class="small">{{creativity_avg|slice:"1:"}}0</span>
+          <span class="small">{{creativity_avg|slice:"1:3"}}0</span>
         </div>
         <small>CREATIVITY</small>
       </div>
       <div class="items">
         <div class="rate content">
           <span class="big">{{content_avg|slice:"1"}}</span>
-          <span class="small">{{content_avg|slice:"1:"}}0</span>
+          <span class="small">{{content_avg|slice:"1:3"}}0</span>
         </div>
         <small>CONTENT</small>
       </div>
@@ -181,8 +175,10 @@
 <div class="container-fluid ml-3 pl-3 mt-3 pt-3">
   <p><strong>Sites of the day </strong>Previous Winners</p>
   <div class="row">
-    {% if projects %}
-    {% for project in projects %}
+    {% if site_of_day %}
+    {% for pr in site_of_day %}
+    {% for project in pr %}
+
     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
       <div class="card">
         <img src="{{project.landing_page.url}}" alt="{{project.title}}" class="card-img-top">
@@ -204,6 +200,7 @@
         </div>
       </div>
     </div>
+    {% endfor %}
     {% endfor %}
     {% else %}
     <h2 class="text-center">

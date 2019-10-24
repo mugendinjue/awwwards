@@ -1,0 +1,10 @@
+console.log("ready")
+$(document).ready(function(){
+  console.log("iiiiinnn")
+  $('#project_api').click(function(){
+    $('#project_api_pic').slideToggle('slow')
+  })
+  $('#profile_api').click(function(){
+    $('#profile_api_pic').slideToggle('slow')
+  })
+})
