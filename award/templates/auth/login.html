@@ -3,7 +3,9 @@
 {% block content %}
 {% load static %}
 <style>
-
+.login_pic img{
+  height: 90vh;
+}
 </style>
 
 <div class="container-fluid">
@@ -19,7 +21,7 @@
           </div>
         {% endfor %}
       {% endif %}
-      <fieldset class="form-group">
+      <fieldset class="form-group mt-3 pt-3">
         <form action="" method="POST">
           {% csrf_token %}
           {{form|crispy}}

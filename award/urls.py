@@ -6,8 +6,8 @@ from django.contrib.auth import views as auth_views
 from rest_framework.authtoken import models
 
 urlpatterns = [
-  path('',main_views.home,name='home'),
-  path('register/',main_views.register,name='register'),
+  path('home',main_views.home,name='home'),
+  path('',main_views.register,name='register'),
   path('login/',auth_views.LoginView.as_view(template_name = 'auth/login.html'),name = 'login'),
   path('logout/',auth_views.LogoutView.as_view(template_name = 'auth/logout.html'),name='logout'),
   path('submission',main_views.submit,name='submissions'),
