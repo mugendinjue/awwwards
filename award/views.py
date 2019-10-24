@@ -38,7 +38,7 @@ def home(request):
     for point in project_points:
       arr.append(point.vote_average)
       avg = sum(arr)/len(arr)
-    top.append(avg)
+      top.append(avg)
 
   show_top = (max(top))
      
