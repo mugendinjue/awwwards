@@ -233,6 +233,9 @@
             <p class="card-text date">
               {{project.posted_on|timesince}}
             </p>
+            <!-- {% for tag in project.tag.all %}
+            {{tag.name}}
+            {% endfor %} -->
           </div>
           <div class="profile">
             <img src="{{ project.user.profile.profile_pic.url }}" alt="" style="border-radius: 50%;" height="25"

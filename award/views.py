@@ -70,7 +70,6 @@ def home(request):
     for sooood in sod_projects:
         site_of_day.append(Project.objects.filter(id = sooood.project_id))
 
-  print(site_of_day)
 
   the_project = Rating.objects.get(id = tt)
   get_projects = Rating.objects.filter(project_id = the_project.project_id).all()
@@ -94,7 +93,6 @@ def home(request):
   for de in get_projects:
     content.append(de.content)
   content_avg = sum(content)/len(content)
-  print(site_of_day)
   context = {
     'reg_form':reg_form,
     'projects':projects,
